@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# Generates 3 numbers when given input.
+
+chmod u+x gen.py
+
+echo -e "Please enter your git username: "
+
+read name
+
+python3 gen.py $name
+
+

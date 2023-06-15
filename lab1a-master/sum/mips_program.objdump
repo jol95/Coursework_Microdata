@@ -1,0 +1,76 @@
+
+a.out:     file format elf32-tradbigmips
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         00000048  00000000  00000000  00000054  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000000  00001000  00001000  00001054  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .bss          00000000  00001000  00001000  00001054  2**0
+                  ALLOC
+  3 .reginfo      00000018  00000000  00000000  00001054  2**2
+                  CONTENTS, READONLY, LINK_ONCE_SAME_SIZE
+  4 .pdr          00000000  00000000  00000000  0000106c  2**2
+                  CONTENTS, READONLY
+SYMBOL TABLE:
+00000000 l    d  .text	00000000 .text
+00001000 l    d  .data	00000000 .data
+00001000 l    d  .bss	00000000 .bss
+00000000 l    d  .reginfo	00000000 .reginfo
+00000000 l    d  .pdr	00000000 .pdr
+00000000 l    d  *ABS*	00000000 .shstrtab
+00000000 l    d  *ABS*	00000000 .symtab
+00000000 l    d  *ABS*	00000000 .strtab
+00000000 l       .text	00000000 main
+0000000c l       .text	00000000 sum
+00000008 l       .text	00000000 stop
+0000001c l       .text	00000000 if
+0000002c l       .text	00000000 else
+00000024 l       .text	00000000 then
+0000003c l       .text	00000000 exit
+00000000 g       *ABS*	00000000 __start
+
+
+Contents of section .text:
+ 0000 24040005 04110001 1000ffff 27bdfffc  $...........'...
+ 0010 afbf0000 27bdfffc afa40000 34080001  ....'.......4...
+ 0020 14880002 34020001 10000004 2484ffff  ....4.......$...
+ 0030 0411fff6 8fa80000 00481021 8fbf0004  .........H.!....
+ 0040 27bd0008 03e00008                    '.......        
+Contents of section .reginfo:
+ 0000 a0000114 00000000 00000000 00000000  ................
+ 0010 00000000 00000000                    ........        
+Disassembly of section .text:
+
+00000000 <main>:
+   0:	24040005 	li	a0,5
+   4:	04110001 	bal	c <sum>
+
+00000008 <stop>:
+   8:	1000ffff 	b	8 <stop>
+
+0000000c <sum>:
+   c:	27bdfffc 	addiu	sp,sp,-4
+  10:	afbf0000 	sw	ra,0(sp)
+  14:	27bdfffc 	addiu	sp,sp,-4
+  18:	afa40000 	sw	a0,0(sp)
+
+0000001c <if>:
+  1c:	34080001 	li	t0,0x1
+  20:	14880002 	bne	a0,t0,2c <else>
+
+00000024 <then>:
+  24:	34020001 	li	v0,0x1
+  28:	10000004 	b	3c <exit>
+
+0000002c <else>:
+  2c:	2484ffff 	addiu	a0,a0,-1
+  30:	0411fff6 	bal	c <sum>
+  34:	8fa80000 	lw	t0,0(sp)
+  38:	00481021 	addu	v0,v0,t0
+
+0000003c <exit>:
+  3c:	8fbf0004 	lw	ra,4(sp)
+  40:	27bd0008 	addiu	sp,sp,8
+  44:	03e00008 	jr	ra
